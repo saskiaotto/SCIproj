@@ -1,0 +1,21 @@
+Package: SCIproj
+Type: Package
+Title: Creates a scientific project skeleton as an R package
+Version: 0.1.0
+Date: 2021-02-07
+Authors@R: c(person("Saskia", "Otto", email="saskia.a.otto@gmail.com",
+    role=c("aut","cre")))
+Maintainer: Saskia Otto <saskia.a.otto@gmail.com>
+Description: This package "works as a template for new research projects, under the idea of having everything (data, R scripts, functions
+    and manuscript/reports) contained in the same package (a 'research compendium') to facilitate collaboration and promote reproducibility." CHANGE for a data analysis.
+License: CC0
+Depends:
+    R(>= 3.5.0)
+Imports:
+    usethis,
+    rstudioapi
+Suggests:
+    testthat
+RoxygenNote: 7.1.1
+Encoding: UTF-8
+LazyData: true

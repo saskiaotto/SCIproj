@@ -1,0 +1,1 @@
+Put here the master R Markdown documents with the final analyses and figures (each in its own folder). This can be a combination of journal article, report and html presentation. For instance use the R Markdown templates from the UHHformats package.

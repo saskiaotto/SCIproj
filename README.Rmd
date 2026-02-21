@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # SCIproj <img src="tools/images/SCIproj_logo.png" align="right" width="100" height="112" />
 
-An R package for the initialization and organization of a scientific research project following reproducible research guidelines.
+An R package for the initialization and organization of a scientific project following reproducible research guidelines.
 
 ## Overview
 

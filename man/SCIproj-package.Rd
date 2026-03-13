@@ -9,7 +9,7 @@
 Generic template for research projects structured as R packages.
 This package works as a template for new research projects,
 under the idea of having everything (data, R scripts, functions and manuscripts)
-contained in the same package to promote reproducibility.
+contained in the same package to promote reproducible research.
 }
 \details{
 For detailed steps on how to use the package see \url{https://github.com/saskiaotto/SCIproj/blob/main/README.md}.

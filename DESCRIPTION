@@ -10,6 +10,7 @@ Description: Provides a template for new research projects structured as an R
     functions and manuscript or reports - is contained within the same package to
     facilitate collaboration and promote reproducible research, following the FAIR 
     principles.
+Language: en-US
 License: MIT + file LICENSE
 Depends:
     R(>= 4.1.0)

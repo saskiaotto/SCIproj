@@ -26,9 +26,9 @@
 
 ## New features (workflow)
 
-* New `use_git` parameter to initialise a local git repository without creating
+* New `use_git` parameter to initialize a local git repository without creating
   a GitHub repo.
-* `use_renv = TRUE` (default) initialises renv with lockfile and .Rprofile
+* `use_renv = TRUE` (default) initializes renv with lockfile and .Rprofile
   bootstrap for dependency management (using `snapshot.type = "explicit"`).
 * `use_targets = TRUE` (default) adds a `_targets.R` pipeline template for
   reproducible workflow management.
@@ -79,7 +79,7 @@
 * Package license changed from CC BY 4.0 to MIT.
 * Updated makefile template to reference Quarto and targets.
 * Updated README with FAIR principles, rOpenSci, TIER Protocol, and NASA TOPS
-  references. Reorganised resources section.
+  references. Reorganized resources section.
 * Added comprehensive test suite (testthat): directory structure, data_raw,
   targets, docker, input validation, CITATION.cff, name sanitization.
 

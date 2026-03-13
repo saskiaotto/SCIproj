@@ -44,19 +44,19 @@ create_proj("~/projects/my_analysis")
 
 This creates a fully scaffolded research compendium with `renv` and `targets` enabled by default.
 
-### Customising the call
+### Customizing the call
 
 ```{r custom, eval = FALSE}
 create_proj("~/projects/baltic_cod",
   add_license = "MIT",
   license_holder = "Jane Doe",
-  orcid = "0000-0001-7986-0308",
+  orcid = "0000-0001-2345-6789",
   use_docker = TRUE,
   use_git = TRUE
 )
 ```
 
-Directory names with underscores or hyphens are fine --- the R package name in `DESCRIPTION` is automatically sanitised (e.g., `baltic_cod` becomes `baltic.cod`).
+Directory names with underscores or hyphens are fine --- the R package name in `DESCRIPTION` is automatically sanitized (e.g., `baltic_cod` becomes `baltic.cod`).
 
 ## Project structure
 
@@ -121,7 +121,7 @@ A [Citation File Format](https://citation-file-format.github.io/) file is create
 ```{r citation, eval = FALSE}
 create_proj("my_project",
   license_holder = "Jane Doe",
-  orcid = "0000-0001-7986-0308",
+  orcid = "0000-0001-2345-6789",
   add_license = "MIT"
 )
 ```
@@ -138,7 +138,7 @@ By default (`use_targets = TRUE`), SCIproj adds a `_targets.R` pipeline template
 
 - **Automatic dependency tracking** --- only outdated targets are re-run.
 - **Caching** --- results are stored in the `_targets/` data store.
-- **Visualization** --- `tar_visnetwork()` shows the pipeline as a graph.
+- **Visualisation** --- `tar_visnetwork()` shows the pipeline as a graph.
 
 A typical workflow:
 
@@ -157,7 +157,7 @@ Edit `_targets.R` to define your data-loading, analysis, and reporting steps. Ea
 
 ## Dependency management with renv
 
-By default (`use_renv = TRUE`), SCIproj initialises [renv](https://rstudio.github.io/renv/) with the `"explicit"` snapshot type.
+By default (`use_renv = TRUE`), SCIproj initializes [renv](https://rstudio.github.io/renv/) with the `"explicit"` snapshot type.
 This means renv discovers dependencies from `DESCRIPTION` rather than scanning all R files, which is the recommended approach for package-based compendia.
 
 Key commands:

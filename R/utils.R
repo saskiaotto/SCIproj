@@ -1,13 +1,13 @@
-#' Sanitize a directory name into a valid R package name
+#' Clean a directory name into a valid R package name
 #'
 #' Converts underscores and hyphens to dots and removes other invalid
 #' characters. R package names may only contain letters, numbers, and dots,
 #' must start with a letter, and must not end with a dot.
 #'
-#' @param name Character. The directory name to sanitize.
+#' @param name Character. The directory name to clean.
 #' @return A valid R package name.
 #' @keywords internal
-sanitize_pkg_name <- function(name) {
+clean_pkg_name <- function(name) {
   # Replace underscores and hyphens with dots
   pkg <- gsub("[_-]", ".", name)
   # Remove any remaining invalid characters (keep letters, numbers, dots)
@@ -16,7 +16,7 @@ sanitize_pkg_name <- function(name) {
   pkg <- sub("^[^a-zA-Z]+", "", pkg)
   # Must not end with a dot
   pkg <- sub("[.]+$", "", pkg)
-  # If empty after sanitization, use a fallback
+  # If empty after cleaning, use a fallback
 
   if (nchar(pkg) == 0) {
     stop("Cannot derive a valid R package name from '", name,

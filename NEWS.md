@@ -81,7 +81,7 @@
 * Updated README with FAIR principles, rOpenSci, TIER Protocol, and NASA TOPS
   references. Reorganized resources section.
 * Added comprehensive test suite (testthat): directory structure, data_raw,
-  targets, docker, input validation, CITATION.cff, name sanitization.
+  targets, docker, input validation, CITATION.cff, name cleaning.
 
 # SCIproj 0.1.0
 

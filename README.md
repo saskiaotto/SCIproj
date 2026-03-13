@@ -158,7 +158,7 @@ create_proj("my_research_project",
 | `use_git` | `TRUE` | Initialize local git repo |
 | `create_github_repo` | `FALSE` | Create GitHub repo (needs `GITHUB_PAT`) |
 | `ci` | `"none"` | CI type: `"none"` or `"gh-actions"` |
-| `use_renv` | `TRUE` | Initialise renv for dependency management |
+| `use_renv` | `TRUE` | Initialize renv for dependency management |
 | `use_targets` | `TRUE` | Add `_targets.R` pipeline template |
 | `use_docker` | `FALSE` | Add Dockerfile template |
 | `open_proj` | `FALSE` | Open new project in RStudio |
@@ -215,7 +215,7 @@ create_proj("my_research_project",
   Shift + D</kbd>.
 - **Run tests**: `devtools::test()` or <kbd>Ctrl/Cmd + Shift + T</kbd>.
 - **Run the pipeline**: `targets::tar_make()` to execute all targets.
-  `targets::tar_visnetwork()` to visualise dependencies.
+  `targets::tar_visnetwork()` to visualize dependencies.
 - **Update lockfile**: `renv::snapshot()` after installing or updating
   packages.
 
@@ -228,7 +228,7 @@ Project](https://rocker-project.org/) for R-specific Docker images.
 
 ### Archiving and DOI
 
-When your project is finalised:
+When your project is finalized:
 
 1.  [Archive the GitHub
     repo](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/archiving-repositories)

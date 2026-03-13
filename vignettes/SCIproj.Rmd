@@ -138,7 +138,7 @@ By default (`use_targets = TRUE`), SCIproj adds a `_targets.R` pipeline template
 
 - **Automatic dependency tracking** --- only outdated targets are re-run.
 - **Caching** --- results are stored in the `_targets/` data store.
-- **Visualisation** --- `tar_visnetwork()` shows the pipeline as a graph.
+- **Visualization** --- `tar_visnetwork()` shows the pipeline as a graph.
 
 A typical workflow:
 

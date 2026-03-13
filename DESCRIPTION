@@ -1,21 +1,31 @@
 Package: SCIproj
 Type: Package
-Title: Creates a scientific project skeleton as an R package
-Version: 0.1.0
-Date: 2021-02-07
-Authors@R: c(person("Saskia", "Otto", email="saskia.a.otto@gmail.com",
-    role=c("aut","cre")))
-Maintainer: Saskia Otto <saskia.a.otto@gmail.com>
-Description: This package "works as a template for new research projects, under the idea of having everything (data, R scripts, functions
-    and manuscript/reports) contained in the same package (a 'research compendium') to facilitate collaboration and promote reproducibility." CHANGE for a data analysis.
-License: CC BY 4.0
+Title: Creates a Scientific Project Skeleton as an R Package
+Version: 1.0.0
+Authors@R: c(person("Saskia", "Otto", email = "saskia.a.otto@gmail.com",
+    role = c("aut","cre", "cph"),
+    comment = c(ORCID = "0000-0001-7780-1322")))
+Description: Provides a template for new research projects structured as an R
+    package-based research compendium. Everything - data, R scripts, custom
+    functions and manuscript or reports - is contained within the same package to
+    facilitate collaboration and promote reproducible research, following the FAIR 
+    principles.
+License: MIT + file LICENSE
 Depends:
-    R(>= 3.5.0)
+    R(>= 4.1.0)
 Imports:
-    usethis,
+    usethis (>= 2.0.0),
     rstudioapi
 Suggests:
-    testthat
-RoxygenNote: 7.2.3
+    knitr,
+    renv,
+    rmarkdown,
+    targets,
+    testthat (>= 3.0.0),
+    withr
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.3
 Encoding: UTF-8
-LazyData: true
+URL: https://github.com/saskiaotto/SCIproj
+BugReports: https://github.com/saskiaotto/SCIproj/issues

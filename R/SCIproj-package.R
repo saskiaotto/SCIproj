@@ -8,7 +8,7 @@
 #' @name SCIproj-package
 #' @docType package
 #' @author Saskia A. Otto
-#' @details For detailed steps on how to use the package see \url{https://github.com/saskiaotto/SCIproj/blob/master/README.md}.
+#' @details For detailed steps on how to use the package see \url{https://github.com/saskiaotto/SCIproj/blob/main/README.md}.
 #' @keywords internal
 "_PACKAGE"
 #'

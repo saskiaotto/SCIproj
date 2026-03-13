@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: "SCIproj"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Otto
+    given-names: Saskia
+    orcid: https://orcid.org/0000-0001-7780-1322
+version: 1.0.0
+date-released: 2026-03-013
+license: MIT
+repository-code: https://github.com/saskiaotto/SCIproj

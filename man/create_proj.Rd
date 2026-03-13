@@ -9,55 +9,135 @@ create_proj(
   data_raw = TRUE,
   makefile = FALSE,
   testthat = FALSE,
-  use_pipe = TRUE,
+  use_pipe = FALSE,
   add_license = NULL,
   license_holder = "Your name",
+  orcid = NULL,
+  use_git = TRUE,
   create_github_repo = FALSE,
   private_repo = TRUE,
   ci = "none",
-  open_proj = TRUE,
+  use_renv = TRUE,
+  use_targets = TRUE,
+  use_docker = FALSE,
+  open_proj = FALSE,
   verbose = FALSE
 )
 }
 \arguments{
-\item{name}{Character. Name of the new project. Could be a path, e.g. \code{"~/myRcode/newproj"}. A new folder will be created with that name.}
+\item{name}{Character. Name of the new project. Could be a path, e.g.
+\code{"~/myRcode/newproj"}. A new folder will be created with that name.
+The directory name can contain underscores or hyphens (e.g.
+\code{"my_project"}) — these will be automatically converted to dots
+for the internal R package name (e.g. \code{my.project} in DESCRIPTION).}
 
-\item{data_raw}{Logical. If TRUE, adds a 'data-raw' folder for all the raw data files, including a 'clean_data.R' script file for generating
-clean datasets from the raw files that are then saved in the 'data' folder.}
+\item{data_raw}{Logical. If TRUE (default), adds a \code{data-raw/} folder
+for all the raw data files, including a \code{clean_data.R} script file for
+generating clean datasets, a \code{DATA_SOURCES.md} for documenting data
+provenance (source, license, download date, DOI), and a README.}
 
-\item{makefile}{Logical. If TRUE, adds a template \code{makefile.R} file to the project.}
+\item{makefile}{Logical. If TRUE, adds a template \code{makefile.R} file to
+the project.}
 
-\item{testthat}{Logical. Add testthat infrastructure?}
+\item{testthat}{Logical. If TRUE, adds testthat infrastructure.}
 
-\item{use_pipe}{Logical. Use magrittr's pipe in your package?}
+\item{use_pipe}{Logical. If TRUE, adds magrittr's pipe operator to the
+package. Default is FALSE since R >= 4.1.0 provides the native pipe
+operator \code{|>} which is recommended instead.}
 
-\item{add_license}{Character. Use magrittr's pipe in your package?}
+\item{add_license}{Character. Type of license to add. Options are
+\code{"MIT"}, \code{"GPL"}, \code{"AGPL"}, \code{"LGPL"},
+\code{"Apache"}, \code{"CCBY"}, or \code{"CC0"}. Default is NULL (no
+license added).}
 
-\item{license_holder}{Character. If you want to use a license than replace 'Your name' with your own name.}
+\item{license_holder}{Character. Name of the license holder / project
+author. Also used in CITATION.cff. Default is \code{"Your name"}.}
 
-\item{create_github_repo}{Logical. Create GitHub repository? Note this requires some working infrastructure like \code{git} and a \code{GITHUB_PAT}. See instructions here \url{https://usethis.r-lib.org/articles/articles/usethis-setup.html}.}
+\item{orcid}{Character. ORCID iD of the project author (e.g.
+\code{"0000-0001-7986-0308"}). Used in CITATION.cff. Default is NULL.}
 
-\item{private_repo}{Logical. Default is TRUE.}
+\item{use_git}{Logical. If TRUE (default), initialises a local git
+repository.}
 
-\item{ci}{Logical. Use continuous integration in your GitHub repository? Current options are "none" (default), "travis" (uses Travis-CI), "circle" (uses Circle-CI), "appveyor" (uses AppVeyor), or "gh-actions" (uses GitHub Actions).}
+\item{create_github_repo}{Logical. If TRUE, creates a GitHub repository.
+Note this requires some working infrastructure like \code{git} and a
+\code{GITHUB_PAT}. See
+\url{https://usethis.r-lib.org/articles/articles/usethis-setup.html}.}
 
-\item{open_proj}{Logical. If TRUE (the default) will open the newly created Rstudio project in a new session.}
+\item{private_repo}{Logical. If TRUE (default), the GitHub repo will be
+private.}
 
-\item{verbose}{Logical. Print verbose output in the console while creating the new project? Default is FALSE.}
+\item{ci}{Character. Type of continuous integration for your GitHub
+repository. Options are \code{"none"} (default) or \code{"gh-actions"}
+(uses GitHub Actions with R CMD check). Only used when
+\code{create_github_repo = TRUE}.}
+
+\item{use_renv}{Logical. If TRUE (default), initialises
+\href{https://rstudio.github.io/renv/}{renv} for dependency management.
+Creates a lockfile and \code{.Rprofile} bootstrap.}
+
+\item{use_targets}{Logical. If TRUE (default), adds a
+\href{https://docs.ropensci.org/targets/}{\code{_targets.R}} template file
+for pipeline-based workflow management.}
+
+\item{use_docker}{Logical. If TRUE, adds a template \code{Dockerfile} for
+building a reproducible computational environment.}
+
+\item{open_proj}{Logical. If TRUE, opens the newly created RStudio
+project in a new session. Default is FALSE — open the \code{.Rproj}
+file manually after creation.}
+
+\item{verbose}{Logical. If TRUE, prints verbose output in the console while
+creating the new project. Default is FALSE.}
 }
 \value{
-A new directory with a slightly modified R package structure.
+Invisibly returns the path to the new project directory.
 }
 \description{
-Create all the scaffolding for a new project in a new directory. The scaffolding includes a README file, different folders to hold raw data, analyses, etc, and optionally also \code{testthat} infrastructure. Also, optionally, set a private or public GitHub repo with continuous integration (Travis-CI, GitHub Actions...).
+Create all the scaffolding for a new project in a new directory. The
+scaffolding includes a README file, different folders to hold raw data,
+analyses, etc, a \code{_targets.R} pipeline template,
+\href{https://rstudio.github.io/renv/}{renv} dependency management,
+and a \code{CITATION.cff} file. Optionally, initialise a git repository
+and/or set up a private or public GitHub repo with GitHub Actions CI.
 }
 \details{
-If using github = TRUE, you will be asked if you want to commit some files. Reply positively to continue.
+SCIproj creates a research compendium that combines
+  \strong{structure} (where files live) with \strong{workflow} (how analyses
+  are reproduced). By default, it sets up:
+  \itemize{
+    \item \code{renv} for dependency management (reproducible package versions)
+    \item \code{targets} for pipeline-based workflow (automatic dependency
+      tracking and caching)
+    \item \code{CITATION.cff} for machine-readable citation metadata (FAIR)
+    \item \code{DATA_SOURCES.md} for data provenance documentation
+  }
+
+  Since R >= 4.1.0, the native pipe operator \code{|>} is available and
+  recommended over the magrittr pipe \code{\%>\%}. The \code{use_pipe}
+  parameter is therefore set to FALSE by default.
 }
 \examples{
 \dontrun{
 library("SCIproj")
+
+# Minimal project (includes renv + targets by default)
 create_proj("myproject")
-create_proj("myproject", github = TRUE, private.repo = TRUE)
+
+# Names with underscores/hyphens are fine — the R package name is
+# auto-sanitized (e.g. "baltic_cod" -> "baltic.cod" in DESCRIPTION)
+create_proj("baltic_cod_analysis")
+
+# Full-featured project
+create_proj("my_research_project",
+  add_license = "MIT",
+  license_holder = "Jane Doe",
+  orcid = "0000-0001-2345-6789",
+  create_github_repo = TRUE,
+  ci = "gh-actions"
+)
+
+# Minimal without workflow tools
+create_proj("myproject", use_renv = FALSE, use_targets = FALSE)
 }
 }

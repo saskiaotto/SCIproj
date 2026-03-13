@@ -1,1 +1,2 @@
-Put here R scripts or R Markdown documents involving different analyses for the project.
+Put here R scripts or R Markdown/Quarto documents involving different analyses 
+for the project.

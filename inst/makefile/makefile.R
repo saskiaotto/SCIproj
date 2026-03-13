@@ -1,7 +1,8 @@
 #
 # ################ MASTER SCRIPT TEMPLATE TO IMPROVE WORKFLOW ###############
 #
-# # Consider also using the pipeline toolkit 'targets' for a reproducible workflow!
+# # For a more sophisticated approach consider using the pipeline toolkit
+# # 'targets' (https://docs.ropensci.org/targets/) for a reproducible workflow!
 #
 # # Package loading ---------------------
 # # (needed if you have written your own functions in R/)
@@ -15,12 +16,13 @@
 #
 # # source R scripts
 # source("analyses/data_exploration.R")
-# # render R Markdown files
+# # render R Markdown or Quarto files
 # rmarkdown::render("analyses/time_series_analysis.Rmd")
+# # quarto::quarto_render("analyses/time_series_analysis.qmd")
 #
 #
 # # Render publication-ready documents -----------------
-# rmarkdown::render("docs/paper/PNAS_paper.Rmd")
-# rmarkdown::render("docs/presentations/user_conf21.Rmd")
-#
+# rmarkdown::render("docs/paper/paper.Rmd")
+# rmarkdown::render("docs/presentations/presentation.Rmd")
+# # quarto::quarto_render("docs/paper/paper.qmd")
 #

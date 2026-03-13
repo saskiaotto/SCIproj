@@ -9,5 +9,13 @@
 ^LICENSE\.md$
 ^_pkgdown\.yml$
 ^pkgdown$
-^\.travis.yml$
-
+^\.github$
+^_targets\.R$
+^_targets$
+^renv$
+^renv\.lock$
+^Dockerfile$
+^\.dockerignore$
+^CITATION\.cff$
+^CONTRIBUTING\.md$
+^cran-comments\.md$

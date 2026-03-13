@@ -12,7 +12,15 @@ under the idea of having everything (data, R scripts, functions and manuscripts)
 contained in the same package to promote reproducibility.
 }
 \details{
-For detailed steps on how to use the package see \url{https://github.com/saskiaotto/SCIproj/blob/master/README.md}.
+For detailed steps on how to use the package see \url{https://github.com/saskiaotto/SCIproj/blob/main/README.md}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/saskiaotto/SCIproj}
+  \item Report bugs at \url{https://github.com/saskiaotto/SCIproj/issues}
+}
+
 }
 \author{
 Saskia A. Otto

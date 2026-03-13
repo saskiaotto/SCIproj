@@ -147,15 +147,15 @@ test_that("create_proj returns path invisibly", {
   expect_true(is.character(result))
 })
 
-test_that("sanitize_pkg_name converts underscores and hyphens to dots", {
-  expect_equal(sanitize_pkg_name("my_project"), "my.project")
-  expect_equal(sanitize_pkg_name("baltic-cod-analysis"), "baltic.cod.analysis")
-  expect_equal(sanitize_pkg_name("test_my-project"), "test.my.project")
-  expect_equal(sanitize_pkg_name("myproject"), "myproject")
-  expect_equal(sanitize_pkg_name("my.project"), "my.project")
-  expect_equal(sanitize_pkg_name("123project"), "project")
-  expect_equal(sanitize_pkg_name("project_"), "project")
-  expect_error(sanitize_pkg_name("___"), "Cannot derive a valid R package name")
+test_that("clean_pkg_name converts underscores and hyphens to dots", {
+  expect_equal(clean_pkg_name("my_project"), "my.project")
+  expect_equal(clean_pkg_name("baltic-cod-analysis"), "baltic.cod.analysis")
+  expect_equal(clean_pkg_name("test_my-project"), "test.my.project")
+  expect_equal(clean_pkg_name("myproject"), "myproject")
+  expect_equal(clean_pkg_name("my.project"), "my.project")
+  expect_equal(clean_pkg_name("123project"), "project")
+  expect_equal(clean_pkg_name("project_"), "project")
+  expect_error(clean_pkg_name("___"), "Cannot derive a valid R package name")
 })
 
 test_that("create_proj works with underscores in name", {
@@ -314,10 +314,10 @@ test_that("create_proj adds pipe with use_pipe = TRUE", {
   expect_true(grepl("magrittr", desc_text))
 })
 
-test_that("sanitize_pkg_name handles edge cases", {
-  expect_equal(sanitize_pkg_name("a"), "a")
-  expect_error(sanitize_pkg_name("..."), "Cannot derive a valid R package name")
-  expect_equal(sanitize_pkg_name(".project"), "project")
+test_that("clean_pkg_name handles edge cases", {
+  expect_equal(clean_pkg_name("a"), "a")
+  expect_error(clean_pkg_name("..."), "Cannot derive a valid R package name")
+  expect_equal(clean_pkg_name(".project"), "project")
 })
 
 test_that("create_proj writes correct .Rbuildignore entries", {

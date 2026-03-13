@@ -4,7 +4,7 @@
 #' scaffolding includes a README file, different folders to hold raw data,
 #' analyses, etc, a \code{_targets.R} pipeline template,
 #' \href{https://rstudio.github.io/renv/}{renv} dependency management,
-#' and a \code{CITATION.cff} file. Optionally, initialise a git repository
+#' and a \code{CITATION.cff} file. Optionally, initialize a git repository
 #' and/or set up a private or public GitHub repo with GitHub Actions CI.
 #'
 #' @param name Character. Name of the new project. Could be a path, e.g.
@@ -30,7 +30,7 @@
 #'   author. Also used in CITATION.cff. Default is \code{"Your name"}.
 #' @param orcid Character. ORCID iD of the project author (e.g.
 #'   \code{"0000-0001-7986-0308"}). Used in CITATION.cff. Default is NULL.
-#' @param use_git Logical. If TRUE (default), initialises a local git
+#' @param use_git Logical. If TRUE (default), initializes a local git
 #'   repository.
 #' @param create_github_repo Logical. If TRUE, creates a GitHub repository.
 #'   Note this requires some working infrastructure like \code{git} and a
@@ -42,7 +42,7 @@
 #'   repository. Options are \code{"none"} (default) or \code{"gh-actions"}
 #'   (uses GitHub Actions with R CMD check). Only used when
 #'   \code{create_github_repo = TRUE}.
-#' @param use_renv Logical. If TRUE (default), initialises
+#' @param use_renv Logical. If TRUE (default), initializes
 #'   \href{https://rstudio.github.io/renv/}{renv} for dependency management.
 #'   Creates a lockfile and \code{.Rprofile} bootstrap.
 #' @param use_targets Logical. If TRUE (default), adds a
@@ -82,7 +82,7 @@
 #' create_proj("myproject")
 #'
 #' # Names with underscores/hyphens are fine — the R package name is
-#' # auto-sanitized (e.g. "baltic_cod" -> "baltic.cod" in DESCRIPTION)
+#' # auto-cleaned (e.g. "baltic_cod" -> "baltic.cod" in DESCRIPTION)
 #' create_proj("baltic_cod_analysis")
 #'
 #' # Full-featured project
@@ -139,18 +139,17 @@ create_proj <- function(name,
   # --- Create package skeleton ---
   # The directory name can be anything (underscores, hyphens, etc.) but the
   # R package name in DESCRIPTION must follow R naming rules (letters, numbers,
-  # dots only). We sanitize the basename and fix DESCRIPTION after creation.
+  # dots only). The basename will be cleaned and and the DESCRIPTION fixed after creation.
   dir_name <- basename(name)
-  pkg_name <- sanitize_pkg_name(dir_name)
+  pkg_name <- clean_pkg_name(dir_name)
 
   # create_package() internally calls local_project() which does setwd()
-
   # to the new directory. RStudio detects this and shows a "switch project?"
   # dialog if an .Rproj file exists there. To prevent this:
   #   1. Pass rstudio = FALSE so no .Rproj is created during create_package()
   #   2. Suppress interactive prompts with rlang_interactive = FALSE
-  #   3. Create the .Rproj file later, when our setwd = FALSE is active
-  # In non-interactive sessions (e.g. Rscript), we fall back to manual
+  #   3. Create the .Rproj file later, when setwd = FALSE is active
+  # In non-interactive sessions (e.g. Rscript), fall back to manual
   # structure creation if create_package() fails.
   tryCatch(
     local({
@@ -199,7 +198,7 @@ create_proj <- function(name,
   usethis::local_project(proj_path, force = TRUE, setwd = use_setwd, quiet = TRUE)
 
   # Create .Rproj file now — at this point setwd has NOT been changed to
-  # the new project (in RStudio), so RStudio won't trigger a dialog.
+  # the new project (in RStudio), so RStudio will not trigger a dialog.
   tryCatch(usethis::use_rstudio(), error = function(e) NULL)
 
   # Fix the Package name in DESCRIPTION if it differs from the directory name
@@ -331,14 +330,14 @@ create_proj <- function(name,
   # --- renv ---
   if (isTRUE(use_renv)) {
     if (!requireNamespace("renv", quietly = TRUE)) {
-      warning("Package 'renv' is not installed. Skipping renv initialisation.",
+      warning("Package 'renv' is not installed. Skipping renv initialization.",
         call. = FALSE)
     } else {
-      # Use "explicit" snapshot type (dependency discovery via DESCRIPTION),
+      # Use of "explicit" snapshot type (dependency discovery via DESCRIPTION),
       # which is recommended for package-based research compendia.
       # Pre-setting snapshot.type avoids the interactive prompt and ensures
       # renv uses DESCRIPTION (not all R files) for dependency discovery.
-      # Save and restore library paths because renv::init() switches them
+      # Library paths are saved and restored because renv::init() switches them
       # to the new project's (empty) library, which would break subsequent
       # calls to usethis, rstudioapi, etc. in the current session.
       old_libs <- .libPaths()
@@ -347,7 +346,7 @@ create_proj <- function(name,
         restart = FALSE,
         settings = list(snapshot.type = "explicit")
       )
-      # renv doesn't record itself in the lockfile by default (it considers
+      # renv does not record itself in the lockfile by default (it considers
       # itself infrastructure). This causes a "was loaded but configured to
       # use" warning on startup. Explicitly recording it fixes this.
       renv::record(
@@ -383,7 +382,7 @@ create_proj <- function(name,
   }
 
   # --- Git (local only) ---
-  # Suppress interactive prompts from use_git() (commit confirmation,
+  # Suppression of interactive prompts from use_git() (commit confirmation,
   # RStudio restart request) to avoid conflicts with openProject().
   # For a freshly created project, the default answers are always correct.
   if (isTRUE(use_git) && !isTRUE(create_github_repo)) {

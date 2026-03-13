@@ -56,7 +56,7 @@ author. Also used in CITATION.cff. Default is \code{"Your name"}.}
 \item{orcid}{Character. ORCID iD of the project author (e.g.
 \code{"0000-0001-7986-0308"}). Used in CITATION.cff. Default is NULL.}
 
-\item{use_git}{Logical. If TRUE (default), initialises a local git
+\item{use_git}{Logical. If TRUE (default), initializes a local git
 repository.}
 
 \item{create_github_repo}{Logical. If TRUE, creates a GitHub repository.
@@ -72,7 +72,7 @@ repository. Options are \code{"none"} (default) or \code{"gh-actions"}
 (uses GitHub Actions with R CMD check). Only used when
 \code{create_github_repo = TRUE}.}
 
-\item{use_renv}{Logical. If TRUE (default), initialises
+\item{use_renv}{Logical. If TRUE (default), initializes
 \href{https://rstudio.github.io/renv/}{renv} for dependency management.
 Creates a lockfile and \code{.Rprofile} bootstrap.}
 
@@ -98,7 +98,7 @@ Create all the scaffolding for a new project in a new directory. The
 scaffolding includes a README file, different folders to hold raw data,
 analyses, etc, a \code{_targets.R} pipeline template,
 \href{https://rstudio.github.io/renv/}{renv} dependency management,
-and a \code{CITATION.cff} file. Optionally, initialise a git repository
+and a \code{CITATION.cff} file. Optionally, initialize a git repository
 and/or set up a private or public GitHub repo with GitHub Actions CI.
 }
 \details{
@@ -125,7 +125,7 @@ library("SCIproj")
 create_proj("myproject")
 
 # Names with underscores/hyphens are fine — the R package name is
-# auto-sanitized (e.g. "baltic_cod" -> "baltic.cod" in DESCRIPTION)
+# auto-cleaned (e.g. "baltic_cod" -> "baltic.cod" in DESCRIPTION)
 create_proj("baltic_cod_analysis")
 
 # Full-featured project

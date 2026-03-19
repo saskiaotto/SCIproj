@@ -3,10 +3,12 @@
 
 # SCIproj <img src="tools/images/SCIproj_logo.png" align="right" width="100" height="112" />
 
-[![Author: Saskia
-Otto](https://img.shields.io/badge/author-Saskia%20Otto-blue)](https://github.com/saskiaotto)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/SCIproj)](https://cran.r-project.org/package=SCIproj)
 [![License:
-MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Author:
+Saskia
+Otto](https://img.shields.io/badge/author-Saskia%20Otto-blue)](https://github.com/saskiaotto)
 
 An R package for the initialization and organization of a scientific
 project following reproducible research and
@@ -103,7 +105,13 @@ include:
 
 ## Installation and usage
 
-Install the development version from GitHub:
+Install the released version from CRAN:
+
+``` r
+install.packages("SCIproj")
+```
+
+Or install the development version from GitHub:
 
 ``` r
 ### Using remotes

@@ -20,6 +20,8 @@ create_proj(
   use_renv = TRUE,
   use_targets = TRUE,
   use_docker = FALSE,
+  use_rproj = TRUE,
+  setwd_to_proj = TRUE,
   open_proj = FALSE,
   verbose = FALSE
 )
@@ -28,7 +30,7 @@ create_proj(
 \item{name}{Character. Name of the new project. Could be a path, e.g.
 \code{"~/myRcode/newproj"}. A new folder will be created with that name.
 The directory name can contain underscores or hyphens (e.g.
-\code{"my_project"}) — these will be automatically converted to dots
+\code{"my_project"}) - these will be automatically converted to dots
 for the internal R package name (e.g. \code{my.project} in DESCRIPTION).}
 
 \item{data_raw}{Logical. If TRUE (default), adds a \code{data-raw/} folder
@@ -83,9 +85,23 @@ for pipeline-based workflow management.}
 \item{use_docker}{Logical. If TRUE, adds a template \code{Dockerfile} for
 building a reproducible computational environment.}
 
-\item{open_proj}{Logical. If TRUE, opens the newly created RStudio
-project in a new session. Default is FALSE — open the \code{.Rproj}
-file manually after creation.}
+\item{use_rproj}{Logical. If TRUE (default), creates an RStudio project
+file (\code{.Rproj}). Set to FALSE when working exclusively in IDEs
+that do not use \code{.Rproj} files, such as Positron or VSCode.
+The \code{.Rproj} file is harmless in these IDEs but simply unused.}
+
+\item{setwd_to_proj}{Logical. If TRUE (default), sets the working
+directory to the new project after creation so you can continue
+working inside it. Ignored when \code{open_proj = TRUE} (the new
+session gets the project; the current session keeps its original
+WD). Set to FALSE for script-driven workflows where you want to
+stay in your current working directory - for example, when
+creating multiple projects in sequence.}
+
+\item{open_proj}{Logical. If TRUE, opens the newly created project in
+a new RStudio or Positron session (ignored in other IDEs). In that
+case, the current session keeps its original working directory,
+regardless of \code{setwd_to_proj}. Default is FALSE.}
 
 \item{verbose}{Logical. If TRUE, prints verbose output in the console while
 creating the new project. Default is FALSE.}
@@ -124,7 +140,7 @@ library("SCIproj")
 # Minimal project (includes renv + targets by default)
 create_proj("myproject")
 
-# Names with underscores/hyphens are fine — the R package name is
+# Names with underscores/hyphens are fine - the R package name is
 # auto-cleaned (e.g. "baltic_cod" -> "baltic.cod" in DESCRIPTION)
 create_proj("baltic_cod_analysis")
 

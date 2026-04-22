@@ -5,6 +5,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/SCIproj)](https://cran.r-project.org/package=SCIproj)
+[![CRAN downloads
+total](https://cranlogs.r-pkg.org/badges/grand-total/SCIproj)](https://cran.r-project.org/package=SCIproj)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Author:
 Saskia

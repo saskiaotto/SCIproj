@@ -10,9 +10,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # SCIproj <img src="tools/images/SCIproj_logo.png" align="right" width="100" height="112" />
 
+<!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/SCIproj)](https://cran.r-project.org/package=SCIproj)
+[![R-CMD-check](https://github.com/saskiaotto/SCIproj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/saskiaotto/SCIproj/actions/workflows/R-CMD-check.yaml)
+[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/SCIproj)](https://cran.r-project.org/package=SCIproj)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Author: Saskia Otto](https://img.shields.io/badge/author-Saskia%20Otto-blue)](https://github.com/saskiaotto)
+<!-- badges: end -->
 
 An R package for the initialization and organization of a scientific project following reproducible research and [FAIR](https://www.go-fair.org/fair-principles/) principles.
 

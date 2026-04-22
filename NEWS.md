@@ -1,5 +1,7 @@
 # SCIproj 1.0.0
 
+Initial CRAN release.
+
 ## Breaking changes
 
 * `use_pipe` now defaults to `FALSE`. The native pipe operator `|>` (available

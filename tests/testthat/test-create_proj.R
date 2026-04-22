@@ -14,6 +14,7 @@ test_that("create_proj creates correct directory structure", {
     use_renv = FALSE,
     use_targets = FALSE,
     use_docker = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE,
     verbose = FALSE
   )
@@ -53,6 +54,7 @@ test_that("create_proj respects data_raw = FALSE", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -69,6 +71,7 @@ test_that("create_proj adds targets template by default", {
   create_proj(proj_path,
     use_git = FALSE,
     use_renv = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -87,6 +90,7 @@ test_that("create_proj adds docker files", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -121,6 +125,7 @@ test_that("create_proj generates CITATION.cff with orcid", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -141,6 +146,7 @@ test_that("create_proj returns path invisibly", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -169,6 +175,7 @@ test_that("create_proj works with underscores in name", {
       use_git = FALSE,
       use_renv = FALSE,
       use_targets = FALSE,
+      setwd_to_proj = FALSE,
       open_proj = FALSE
     ),
     "package name in DESCRIPTION has been set to"
@@ -180,9 +187,9 @@ test_that("create_proj works with underscores in name", {
   expect_equal(pkg_line, "Package: test.compendium")
 })
 
-test_that("create_proj restores working directory", {
+test_that("create_proj with setwd_to_proj = FALSE keeps working directory unchanged", {
   tmp <- withr::local_tempdir()
-  proj_path <- file.path(tmp, "testproj_wd")
+  proj_path <- file.path(tmp, "testproj_wd_false")
 
   withr::local_options(usethis.quiet = TRUE)
 
@@ -191,9 +198,33 @@ test_that("create_proj restores working directory", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
   expect_equal(getwd(), wd_before)
+})
+
+test_that("create_proj with setwd_to_proj = TRUE changes working directory to new project", {
+  tmp <- withr::local_tempdir()
+  proj_path <- file.path(tmp, "testproj_wd_true")
+
+  withr::local_options(usethis.quiet = TRUE)
+
+  # Ensure WD is restored after this test so other tests are not affected
+  wd_before <- getwd()
+  withr::defer(setwd(wd_before))
+
+  create_proj(proj_path,
+    use_git = FALSE,
+    use_renv = FALSE,
+    use_targets = FALSE,
+    setwd_to_proj = TRUE,
+    open_proj = FALSE
+  )
+
+  # Normalize both paths so symlink differences (macOS /var vs /private/var)
+  # don't cause the comparison to fail
+  expect_equal(normalizePath(getwd()), normalizePath(proj_path))
 })
 
 test_that("create_proj initialises renv", {
@@ -209,6 +240,7 @@ test_that("create_proj initialises renv", {
     use_git = FALSE,
     use_renv = TRUE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -232,6 +264,7 @@ test_that("create_proj supports all license types", {
       use_git = FALSE,
       use_renv = FALSE,
       use_targets = FALSE,
+      setwd_to_proj = FALSE,
       open_proj = FALSE
     )
 
@@ -255,6 +288,7 @@ test_that("CITATION.cff omits orcid and license when not provided", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -286,6 +320,7 @@ test_that("create_proj adds testthat infrastructure", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -305,6 +340,7 @@ test_that("create_proj adds pipe with use_pipe = TRUE", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -331,6 +367,7 @@ test_that("create_proj writes correct .Rbuildignore entries", {
     use_git = FALSE,
     use_renv = FALSE,
     use_targets = FALSE,
+    setwd_to_proj = FALSE,
     open_proj = FALSE
   )
 
@@ -354,8 +391,76 @@ test_that("create_proj produces output with verbose = TRUE", {
       use_git = FALSE,
       use_renv = FALSE,
       use_targets = FALSE,
+      setwd_to_proj = FALSE,
       open_proj = FALSE,
       verbose = TRUE
     )
   )
+})
+
+test_that("create_proj with use_rproj = TRUE creates an .Rproj file", {
+  tmp <- withr::local_tempdir()
+  proj_path <- file.path(tmp, "testproj_rproj")
+
+  withr::local_options(usethis.quiet = TRUE)
+
+  create_proj(proj_path,
+    use_rproj = TRUE,
+    use_git = FALSE,
+    use_renv = FALSE,
+    use_targets = FALSE,
+    setwd_to_proj = FALSE,
+    open_proj = FALSE
+  )
+
+  proj_path <- normalizePath(proj_path)
+  rproj_files <- list.files(proj_path, pattern = "\\.Rproj$")
+  expect_length(rproj_files, 1)
+})
+
+test_that("create_proj with use_rproj = FALSE does not create an .Rproj file", {
+  tmp <- withr::local_tempdir()
+  proj_path <- file.path(tmp, "testproj_no_rproj")
+
+  withr::local_options(usethis.quiet = TRUE)
+
+  create_proj(proj_path,
+    use_rproj = FALSE,
+    use_git = FALSE,
+    use_renv = FALSE,
+    use_targets = FALSE,
+    setwd_to_proj = FALSE,
+    open_proj = FALSE
+  )
+
+  proj_path <- normalizePath(proj_path)
+  rproj_files <- list.files(proj_path, pattern = "\\.Rproj$")
+  expect_length(rproj_files, 0)
+})
+
+test_that("create_proj runs successfully from a project-free working directory", {
+  # Regression test for #1: create_proj() must not fail with
+  # check_is_project() errors when called from a directory that is
+  # not itself inside an RStudio project. This was previously broken
+  # in non-RStudio IDEs (e.g., Positron) where rstudioapi::isAvailable()
+  # returned TRUE but the working directory was never switched.
+  tmp <- withr::local_tempdir()
+  withr::local_dir(tmp)  # scoped setwd to a project-free tempdir
+
+  proj_path <- file.path(tmp, "testproj_regression")
+
+  withr::local_options(usethis.quiet = TRUE)
+
+  expect_no_error(
+    create_proj(proj_path,
+      use_git = FALSE,
+      use_renv = FALSE,
+      use_targets = FALSE,
+      setwd_to_proj = FALSE,
+      open_proj = FALSE
+    )
+  )
+
+  expect_true(file.exists(file.path(normalizePath(proj_path), "DESCRIPTION")))
+  expect_true(file.exists(file.path(normalizePath(proj_path), "README.Rmd")))
 })

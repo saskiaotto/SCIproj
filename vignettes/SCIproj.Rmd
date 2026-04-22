@@ -58,6 +58,14 @@ create_proj("~/projects/baltic_cod",
 
 Directory names with underscores or hyphens are fine --- the R package name in `DESCRIPTION` is automatically sanitized (e.g., `baltic_cod` becomes `baltic.cod`).
 
+## IDE support
+
+SCIproj works with RStudio, Positron, VSCode, and terminal R sessions. By default, `create_proj()` sets your working directory to the new project (`setwd_to_proj = TRUE`) so you can start working immediately. Three parameters control post-creation behavior:
+
+- `setwd_to_proj` (default `TRUE`): whether the current session's working directory is switched to the new project. Set to `FALSE` for batch workflows where you create multiple projects in sequence and want to stay in your current directory.
+- `use_rproj` (default `TRUE`): whether an `.Rproj` file is created. Set to `FALSE` for projects used exclusively in Positron, VSCode, or similar IDEs that don't rely on `.Rproj` files.
+- `open_proj` (default `FALSE`): if `TRUE`, opens the new project in a fresh RStudio or Positron session. In that case, the current session keeps its original working directory.
+  
 ## Project structure
 
 After creation, the project directory looks like this:
@@ -66,7 +74,7 @@ After creation, the project directory looks like this:
 your-project/
 ├── DESCRIPTION             # Project metadata, dependencies, and author info (with ORCID).
 ├── README.Rmd              # Top-level project description.
-├── your-project.Rproj      # RStudio project file.
+├── your-project.Rproj      # RStudio project file (if use_rproj = TRUE, default).
 ├── CITATION.cff            # Machine-readable citation metadata for FAIR compliance.
 ├── CONTRIBUTING.md         # Contribution guidelines.
 ├── LICENSE.md              # Full license text (here: MIT).
@@ -202,7 +210,7 @@ Set `makefile = TRUE` to add a `makefile.R` script as an alternative to `targets
    SCIproj::create_proj("~/projects/my_study", add_license = "MIT",
      license_holder = "Your Name")
    ```
-2. **Open the `.Rproj` file** in RStudio.
+2. **Start working in the project.** Your working directory is already set to the new project (`setwd_to_proj = TRUE` by default), so you can continue immediately. For a dedicated project session, either open the `.Rproj` file manually (RStudio) or the project folder as a workspace (Positron/VSCode) — or pass `open_proj = TRUE` to `create_proj()` to open a new IDE session automatically.
 3. **Add raw data** to `data-raw/` and document it in `DATA_SOURCES.md`.
 4. **Write cleaning code** in `data-raw/clean_data.R`; save cleaned data to `data/` with `usethis::use_data()`.
 5. **Write analysis functions** in `R/` and document them with `roxygen2`.
@@ -211,7 +219,4 @@ Set `makefile = TRUE` to add a `makefile.R` script as an alternative to `targets
 8. **Write reports** in `analyses/` using R Markdown or Quarto, reading results with `targets::tar_read()`.
 9. **Snapshot dependencies** with `renv::snapshot()` before sharing.
 10. **Push to GitHub** and let CI run `R CMD check` automatically.
-
-
-
 

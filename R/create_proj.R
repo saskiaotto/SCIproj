@@ -10,7 +10,7 @@
 #' @param name Character. Name of the new project. Could be a path, e.g.
 #'   \code{"~/myRcode/newproj"}. A new folder will be created with that name.
 #'   The directory name can contain underscores or hyphens (e.g.
-#'   \code{"my_project"}) — these will be automatically converted to dots
+#'   \code{"my_project"}) - these will be automatically converted to dots
 #'   for the internal R package name (e.g. \code{my.project} in DESCRIPTION).
 #' @param data_raw Logical. If TRUE (default), adds a \code{data-raw/} folder
 #'   for all the raw data files, including a \code{clean_data.R} script file for
@@ -50,9 +50,21 @@
 #'   for pipeline-based workflow management.
 #' @param use_docker Logical. If TRUE, adds a template \code{Dockerfile} for
 #'   building a reproducible computational environment.
-#' @param open_proj Logical. If TRUE, opens the newly created RStudio
-#'   project in a new session. Default is FALSE — open the \code{.Rproj}
-#'   file manually after creation.
+#' @param use_rproj Logical. If TRUE (default), creates an RStudio project
+#'   file (\code{.Rproj}). Set to FALSE when working exclusively in IDEs
+#'   that do not use \code{.Rproj} files, such as Positron or VSCode.
+#'   The \code{.Rproj} file is harmless in these IDEs but simply unused.
+#' @param setwd_to_proj Logical. If TRUE (default), sets the working
+#'   directory to the new project after creation so you can continue
+#'   working inside it. Ignored when \code{open_proj = TRUE} (the new
+#'   session gets the project; the current session keeps its original
+#'   WD). Set to FALSE for script-driven workflows where you want to
+#'   stay in your current working directory - for example, when
+#'   creating multiple projects in sequence.
+#' @param open_proj Logical. If TRUE, opens the newly created project in
+#'   a new RStudio or Positron session (ignored in other IDEs). In that
+#'   case, the current session keeps its original working directory,
+#'   regardless of \code{setwd_to_proj}. Default is FALSE.
 #' @param verbose Logical. If TRUE, prints verbose output in the console while
 #'   creating the new project. Default is FALSE.
 #'
@@ -81,7 +93,7 @@
 #' # Minimal project (includes renv + targets by default)
 #' create_proj("myproject")
 #'
-#' # Names with underscores/hyphens are fine — the R package name is
+#' # Names with underscores/hyphens are fine - the R package name is
 #' # auto-cleaned (e.g. "baltic_cod" -> "baltic.cod" in DESCRIPTION)
 #' create_proj("baltic_cod_analysis")
 #'
@@ -112,6 +124,8 @@ create_proj <- function(name,
   use_renv = TRUE,
   use_targets = TRUE,
   use_docker = FALSE,
+  use_rproj = TRUE,
+  setwd_to_proj = TRUE,
   open_proj = FALSE,
   verbose = FALSE) {
 
@@ -143,14 +157,12 @@ create_proj <- function(name,
   dir_name <- basename(name)
   pkg_name <- clean_pkg_name(dir_name)
 
-  # create_package() internally calls local_project() which does setwd()
-  # to the new directory. RStudio detects this and shows a "switch project?"
-  # dialog if an .Rproj file exists there. To prevent this:
-  #   1. Pass rstudio = FALSE so no .Rproj is created during create_package()
-  #   2. Suppress interactive prompts with rlang_interactive = FALSE
-  #   3. Create the .Rproj file later, when setwd = FALSE is active
-  # In non-interactive sessions (e.g. Rscript), fall back to manual
-  # structure creation if create_package() fails.
+  # Create the package skeleton without an .Rproj file. The .Rproj
+  # (if any) is created later, after local_project() has activated
+  # the new project. Interactive prompts are suppressed so the
+  # function runs cleanly in all IDEs and in non-interactive
+  # sessions (e.g. Rscript) - where a fallback manual skeleton
+  # creation kicks in if create_package() fails.
   tryCatch(
     local({
       op <- options(rlang_interactive = FALSE)
@@ -189,17 +201,30 @@ create_proj <- function(name,
 
   # Normalize path after directory creation to resolve symlinks
   # (e.g. macOS /var -> /private/var). Activate the new project with
-  # local_project() and auto-restore when create_proj() exits.
-  # In RStudio, setwd = FALSE prevents triggering the "switch project?"
-  # dialog. Outside RStudio (terminal, R CMD check), setwd = TRUE is
-  # needed for usethis functions to find the active project.
+  # local_project() and auto-restore when create_proj() exits. The
+  # working directory is always changed to the new project so that
+  # subsequent usethis functions find the correct active project
+  # regardless of the IDE (RStudio, Positron, VSCode, terminal).
+  # In RStudio, this triggers the standard "switch project?" dialog
+  # after .Rproj creation - click "Yes" to open the new project.
   proj_path <- normalizePath(name)
-  use_setwd <- !rstudioapi::isAvailable()
-  usethis::local_project(proj_path, force = TRUE, setwd = use_setwd, quiet = TRUE)
+  usethis::local_project(proj_path, force = TRUE, setwd = TRUE, quiet = TRUE)
 
-  # Create .Rproj file now — at this point setwd has NOT been changed to
-  # the new project (in RStudio), so RStudio will not trigger a dialog.
-  tryCatch(usethis::use_rstudio(), error = function(e) NULL)
+  # Register a deferred setwd() that runs AFTER local_project()'s own
+  # exit handler (which would otherwise restore the original WD). Using
+  # after = TRUE appends our handler to the end of the exit handler
+  # chain, so the WD ends up at proj_path when create_proj() returns.
+  # Skip when open_proj = TRUE, since the new IDE session gets the
+  # project and the old session should keep its original WD.
+  if (isTRUE(setwd_to_proj) && !isTRUE(open_proj)) {
+    on.exit(setwd(proj_path), add = TRUE, after = TRUE)
+  }
+
+  # Optionally create .Rproj file. Users in non-RStudio IDEs like
+  # Positron or VSCode can skip this with use_rproj = FALSE.
+  if (isTRUE(use_rproj)) {
+    tryCatch(usethis::use_rstudio(), error = function(e) NULL)
+  }
 
   # Fix the Package name in DESCRIPTION if it differs from the directory name
   if (pkg_name != dir_name) {
@@ -414,11 +439,23 @@ create_proj <- function(name,
     }
   }
 
-  # --- Open project ---
-  if (isTRUE(open_proj)) {
-    if (rstudioapi::isAvailable()) {
-      rstudioapi::openProject(proj_path, newSession = TRUE)
-    }
+  # --- Open project in new IDE session OR change working directory ---
+  # These two actions are mutually exclusive: if a new IDE session is
+  # opened (open_proj = TRUE), the current session keeps its original
+  # working directory so the user can continue working there. If no
+  # new session is opened, setwd_to_proj (default TRUE) moves the
+  # current session's WD into the new project.
+  if (isTRUE(open_proj) && rstudioapi::isAvailable()) {
+    rstudioapi::openProject(proj_path, newSession = TRUE)
+    cli::cli_inform(c(
+      "v" = "Opened new session at {.path {proj_path}}",
+      "i" = "Current session keeps its original working directory."
+    ))
+  } else if (isTRUE(setwd_to_proj)) {
+    cli::cli_inform(c(
+      "v" = "Working directory set to {.path {proj_path}}",
+      "i" = "Use {.code setwd()} to change back if needed."
+    ))
   }
 
   invisible(proj_path)

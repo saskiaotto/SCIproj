@@ -1,7 +1,7 @@
 Package: SCIproj
 Type: Package
 Title: Creates a Scientific Project Skeleton as an R Package
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(person("Saskia", "Otto", email = "saskia.a.otto@gmail.com",
     role = c("aut","cre", "cph"),
     comment = c(ORCID = "0000-0001-7780-1322")))
@@ -16,7 +16,8 @@ Depends:
     R(>= 4.1.0)
 Imports:
     usethis (>= 2.0.0),
-    rstudioapi
+    rstudioapi,
+    cli
 Suggests:
     knitr,
     renv,

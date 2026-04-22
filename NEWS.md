@@ -1,3 +1,38 @@
+# SCIproj 1.0.1
+
+## Bug fixes
+
+* Fixed working directory handling in non-RStudio IDEs such as Positron
+  and VSCode. Previously, `create_proj()` used `rstudioapi::isAvailable()`
+  to detect RStudio — but Positron also implements this API, which
+  caused `check_is_project()` to fail when `create_proj()` was called
+  from a working directory that was not inside an existing project. The
+  function now switches the working directory consistently across all
+  IDEs. Thanks to @eribul for the detailed bug report (#1).
+
+## New features
+
+* New `setwd_to_proj` parameter (default `TRUE`) to set the working
+  directory to the new project after creation, so you can continue
+  working inside it immediately. Set to `FALSE` for script-driven
+  workflows where you want to stay in your current working directory
+  — for example, when creating multiple projects in sequence.
+
+* New `use_rproj` parameter (default `TRUE`) to optionally skip
+  `.Rproj` file creation for users working exclusively in Positron,
+  VSCode, or other non-RStudio IDEs.
+
+## User-facing changes
+
+* `create_proj()` now displays a confirmation message at the end
+  indicating whether the working directory was changed or a new IDE
+  session was opened, so the current state is always transparent.
+
+* When `open_proj = TRUE`, the new IDE session gets the project and
+  the current session keeps its original working directory. Previously,
+  both sessions could end up in the new project.
+
+
 # SCIproj 1.0.0
 
 Initial CRAN release.

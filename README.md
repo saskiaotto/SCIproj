@@ -3,14 +3,18 @@
 
 # SCIproj <img src="tools/images/SCIproj_logo.png" align="right" width="100" height="112" />
 
+<!-- badges: start -->
+
 [![CRAN
 status](https://www.r-pkg.org/badges/version/SCIproj)](https://cran.r-project.org/package=SCIproj)
+[![R-CMD-check](https://github.com/saskiaotto/SCIproj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/saskiaotto/SCIproj/actions/workflows/R-CMD-check.yaml)
 [![CRAN downloads
 total](https://cranlogs.r-pkg.org/badges/grand-total/SCIproj)](https://cran.r-project.org/package=SCIproj)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Author:
 Saskia
 Otto](https://img.shields.io/badge/author-Saskia%20Otto-blue)](https://github.com/saskiaotto)
+<!-- badges: end -->
 
 An R package for the initialization and organization of a scientific
 project following reproducible research and
@@ -59,7 +63,7 @@ include:
     your-project/
     ├── DESCRIPTION             # Project metadata, dependencies, and author info (with ORCID).
     ├── README.Rmd              # Top-level project description.
-    ├── your-project.Rproj      # RStudio project file.
+    ├── your-project.Rproj      # RStudio project file (if use_rproj = TRUE, default).
     ├── CITATION.cff            # Machine-readable citation metadata for FAIR compliance.
     ├── CONTRIBUTING.md         # Contribution guidelines.
     ├── LICENSE.md              # Full license text (optional, requires add_license).
@@ -133,7 +137,9 @@ create_proj("my_research_project")
 ```
 
 This creates a project with `renv`, `targets`, `CITATION.cff`, and
-`DATA_SOURCES.md` by default.
+`DATA_SOURCES.md` by default. By default, your working directory is set
+to the new project so you can start working immediately — in RStudio,
+Positron, VSCode, or any terminal R session.
 
 Customize with parameters:
 
@@ -171,7 +177,9 @@ create_proj("my_research_project",
 | `use_renv` | `TRUE` | Initialize renv for dependency management |
 | `use_targets` | `TRUE` | Add `_targets.R` pipeline template |
 | `use_docker` | `FALSE` | Add Dockerfile template |
-| `open_proj` | `FALSE` | Open new project in RStudio |
+| `use_rproj` | `TRUE` | Create `.Rproj` file (disable for Positron/VSCode-only projects) |
+| `setwd_to_proj` | `TRUE` | Set working directory to new project after creation |
+| `open_proj` | `FALSE` | Open new project in a fresh RStudio or Positron session |
 
 ### Developing the project
 

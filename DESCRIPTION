@@ -16,7 +16,8 @@ Depends:
     R(>= 4.1.0)
 Imports:
     usethis (>= 2.0.0),
-    rstudioapi
+    rstudioapi,
+    cli
 Suggests:
     knitr,
     renv,

@@ -60,7 +60,7 @@ Directory names with underscores or hyphens are fine --- the R package name in `
 
 ## IDE support
 
-SCIproj works with RStudio, Positron, VSCode, and terminal R sessions. By default, `create_proj()` sets your working directory to the new project (`setwd_to_proj = TRUE`) so you can start working immediately. Three parameters control post-creation behaviour:
+SCIproj works with RStudio, Positron, VSCode, and terminal R sessions. By default, `create_proj()` sets your working directory to the new project (`setwd_to_proj = TRUE`) so you can start working immediately. Three parameters control post-creation behavior:
 
 - `setwd_to_proj` (default `TRUE`): whether the current session's working directory is switched to the new project. Set to `FALSE` for batch workflows where you create multiple projects in sequence and want to stay in your current directory.
 - `use_rproj` (default `TRUE`): whether an `.Rproj` file is created. Set to `FALSE` for projects used exclusively in Positron, VSCode, or similar IDEs that don't rely on `.Rproj` files.

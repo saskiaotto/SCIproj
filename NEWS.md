@@ -1,3 +1,5 @@
+# SCIproj (development version)
+
 # SCIproj 1.0.0
 
 Initial CRAN release.

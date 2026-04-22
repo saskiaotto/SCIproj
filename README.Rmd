@@ -49,7 +49,7 @@ The package has some default settings to ensure reproducibility. These include:
 your-project/
 ├── DESCRIPTION             # Project metadata, dependencies, and author info (with ORCID).
 ├── README.Rmd              # Top-level project description.
-├── your-project.Rproj      # RStudio project file.
+├── your-project.Rproj      # RStudio project file (if use_rproj = TRUE, default).
 ├── CITATION.cff            # Machine-readable citation metadata for FAIR compliance.
 ├── CONTRIBUTING.md         # Contribution guidelines.
 ├── LICENSE.md              # Full license text (optional, requires add_license).
@@ -119,7 +119,7 @@ library("SCIproj")
 create_proj("my_research_project")
 ```
 
-This creates a project with `renv`, `targets`, `CITATION.cff`, and `DATA_SOURCES.md` by default. 
+This creates a project with `renv`, `targets`, `CITATION.cff`, and `DATA_SOURCES.md` by default. By default, your working directory is set to the new project so you can start working immediately — in RStudio, Positron, VSCode, or any terminal R session.
 
 Customize with parameters:
 
@@ -157,7 +157,9 @@ create_proj("my_research_project",
 | `use_renv` | `TRUE` | Initialize renv for dependency management |
 | `use_targets` | `TRUE` | Add `_targets.R` pipeline template |
 | `use_docker` | `FALSE` | Add Dockerfile template |
-| `open_proj` | `FALSE` | Open new project in RStudio |
+| `use_rproj` | `TRUE` | Create `.Rproj` file (disable for Positron/VSCode-only projects) |
+| `setwd_to_proj` | `TRUE` | Set working directory to new project after creation |
+| `open_proj` | `FALSE` | Open new project in a fresh RStudio or Positron session |
 
 
 ### Developing the project
